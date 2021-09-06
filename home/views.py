@@ -11,3 +11,9 @@ def base(request):
 def base_copy(request):
   return render(request,'base_copy.html')
 
+def signup(request):
+  return render(request,'signup.html')
+
+def login(request):
+  return render(request,'login.html')
+
