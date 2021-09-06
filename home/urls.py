@@ -8,5 +8,11 @@ urlpatterns = [
     path('base_copy/',views.base_copy,name="base_copy"),
     path('base/',views.base,name="base"),
     path('signup/',views.signup,name="signup"),
-    path('login/',views.login,name="login")
+    path('login/',views.login,name="login"),
+    path('activity/',views.activity,name="activity"),
+    path('dashboard/',views.dashboard,name="dashboard"),
+    path('faq/',views.faq,name="faq"),
+    path('profile/',views.profile,name="profile"),
+    path('settings/',views.settings,name="settings"),
+    path('logout/',views.logout,name="logout")
 ]
