@@ -4,3 +4,10 @@ from django.http import HttpResponse
 # Create your views here.
 def index(request):
   return HttpResponse("Hello, Cool IT Help!")
+
+def base(request):
+  return render(request,'base.html')
+
+def base_copy(request):
+  return render(request,'base_copy.html')
+
