@@ -15,5 +15,7 @@ urlpatterns = [
     path('profile/',views.profile,name="profile"),
     path('settings/',views.settings,name="settings"),
     path('problems/',views.problems,name="problems"),
-    path('logout/',views.logout,name="logout")
+    path('logout/',views.logout,name="logout"),
+    # for signup
+    path('signup/handleSignup/',views.handleSignup,name="handleSignup"),
 ]
