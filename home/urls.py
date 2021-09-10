@@ -14,5 +14,6 @@ urlpatterns = [
     path('faq/',views.faq,name="faq"),
     path('profile/',views.profile,name="profile"),
     path('settings/',views.settings,name="settings"),
+    path('problems/',views.problems,name="problems"),
     path('logout/',views.logout,name="logout")
 ]

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-  return HttpResponse("Hello, Cool IT Help!")
+  return render(request,'dashboard.html')
 
 def base(request):
   return render(request,'base.html')
@@ -35,3 +35,5 @@ def settings(request):
 def logout(request):
   return render(request,'logout.html')
 
+def problems(request):
+  return render(request,'problems.html')

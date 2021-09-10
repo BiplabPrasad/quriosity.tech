@@ -1,1 +1,74 @@
-<h1>I am in Dashboard page</h1>
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+
+
+<div class="pcoded-content">
+  <!-- [ breadcrumb ] start -->
+  <div class="page-header">
+    <div class="page-block">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <div class="page-header-title">
+            <h5 class="m-b-10">Quriosity</h5>
+          </div>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/">Dashboard</a>
+            </li> 
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- [ breadcrumb ] end -->
+  <!-- [ Main Content ] start -->
+  <div class="mt-5 container">
+    <!-- Quriosity main body starts here-->
+
+    <h3>
+    </h3>
+    
+    <div class="row">
+      <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+          <div class="card prod-p-card background-pattern">
+              <div class="card-body">
+                  <div class="row align-items-center m-b-0">
+                      <div class="col">
+                          <h3 class="m-b-5">Dynamic Programming</h3>
+                          <h6 class="m-b-0">35</h6>
+                      </div>
+                      <div class="col-auto m-auto">
+                          <i class="material-icons-two-tone text-primary">card_giftcard</i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>  
+
+
+
+  </div>
+
+
+  <hr>
+
+    <!-- Quriosity main body end here-->
+  </div>
+  <!-- [ Main Content ] end -->
+</div>
+
+
+<h1>{{ section.title }}</h1>
+
+{% for story in story_list %}
+<h2>
+  <a href="{{ story.get_absolute_url }}">
+    {{ story.headline|upper }}
+  </a>
+</h2>
+<p>{{ story.tease|truncatewords:"100" }}</p>
+{% endfor %}
+{% endblock %}
