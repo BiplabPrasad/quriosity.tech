@@ -16,6 +16,10 @@ urlpatterns = [
     path('settings/',views.settings,name="settings"),
     path('problems/',views.problems,name="problems"),
     path('logout/',views.logout,name="logout"),
-    # for signup
+    # for handling signup
     path('signup/handleSignup/',views.handleSignup,name="handleSignup"),
+    # for handling Login
+    path('signup/handleLogin/',views.handleLogin,name="handleLogin"),
+    # for handling Logout
+    path('signup/handleLogin/',views.handleLogin,name="handleLogout"),
 ]
