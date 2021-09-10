@@ -36,9 +36,6 @@ def profile(request):
 def settings(request):
   return render(request,'settings.html')
 
-def log_out(request):
-  return render(request,'logout.html')
-
 def problems(request):
   return render(request,'problems.html')
 
@@ -175,13 +172,16 @@ def handleLogin(request):
     if user is not None:
       login(request, user)
       messages.success(request,"Successfully Logged In")
-      return redirect('log_in')
+      return redirect('dashboard')
     else:
-      messages.error(request,"Invalid Credentials, Please try again")
+      messages.error(request,"Invalid Credentials, try again")
       return redirect('log_in')
   else:
     return render(request,'404.html')
 
-# def handleLogout(request):
-#   return render(request,'404.html')
+# for logging out of the system (handleLogin)
+def log_out(request):
+  logout(request)
+  messages.success(request,"Successfully Logged Out")
+  return redirect('log_in')
 
