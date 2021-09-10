@@ -18,7 +18,7 @@ def base_copy(request):
 def signup(request):
   return render(request,'signup.html')
 
-def login(request):
+def log_in(request):
   return render(request,'login.html')
 
 def activity(request):
@@ -36,7 +36,7 @@ def profile(request):
 def settings(request):
   return render(request,'settings.html')
 
-def logout(request):
+def log_out(request):
   return render(request,'logout.html')
 
 def problems(request):
@@ -151,5 +151,37 @@ def handleSignup(request):
     messages.info(request,"A verification email has been send. Please verify your account")
     return redirect('signup')
   else:
-    return HttpResponse('404 - Not Found (Unauthorised access)')
+    # return HttpResponse('404 - Not Found (Unauthorised access)')
+    return render(request,'404.html')
+
+def handleLogin(request):
+  if request.method == 'POST':
+    #get the post parameters
+    loginusername = request.POST['loginusername']
+    loginemail = request.POST['loginemail']
+    loginpass = request.POST['loginpass']
+    # loginrem = request.POST['loginrem']
+    loginrem = request.POST.get('loginrem', 'False')
+
+    # validating all the data from the login form
+    if len(loginemail)==0:
+      messages.error(request,"Enter email")
+      messages.info(request,loginrem)
+      return redirect('signup')
+
+
+    # validating the user by username and password
+    user = authenticate(username = loginusername, password = loginpass)
+    if user is not None:
+      login(request, user)
+      messages.success(request,"Successfully Logged In")
+      return redirect('log_in')
+    else:
+      messages.error(request,"Invalid Credentials, Please try again")
+      return redirect('log_in')
+  else:
+    return render(request,'404.html')
+
+# def handleLogout(request):
+#   return render(request,'404.html')
 
