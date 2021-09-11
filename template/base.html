@@ -233,7 +233,7 @@
               <img src="{% static 'assets/images/user/avatar-2.jpg'%}" alt="user-image" class="user-avtar" />
               <span>
                 <span class="user-name">{{request.user}}</span>
-                <span class="user-desc">xyz@gmail.com</span>
+                <span class="user-desc">{{request.user.email}}</span>
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right pc-h-dropdown">
@@ -261,7 +261,7 @@
     {% block body %}{% endblock %}
   </div>
   <!-- [ Main Content ] end -->
-  
+
   <!-- Required Js -->
   <script src="{% static 'assets/js/vendor-all.min.js'%}"></script>
   <script src="{% static 'assets/js/plugins/bootstrap.min.js'%}"></script>

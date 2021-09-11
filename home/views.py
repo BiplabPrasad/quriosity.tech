@@ -40,8 +40,12 @@ def profile(request):
 def settings(request):
   return render(request,'settings.html')
 
-def problems(request):
-  return render(request,'problems.html')
+def problems(request,slug):
+  top = topic.objects.filter(slug=slug).first()
+  # print(top)
+  context = {'top':top}
+  messages.info(request,"Topic --> "+top.title)
+  return render(request,'problems.html',context)
 
 # Authentication APIs
 def handleSignup(request):
