@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from home.models import topic
 
 
 # HTML pages
@@ -25,7 +26,10 @@ def activity(request):
   return render(request,'activity.html')
 
 def dashboard(request):
-  return render(request,'dashboard.html')
+  alltopic = topic.objects.all()
+  # print(alltopic)
+  context = {'alltopic':alltopic}
+  return render(request,'dashboard.html',context)
 
 def faq(request):
   return render(request,'faq.html')

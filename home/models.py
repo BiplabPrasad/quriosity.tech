@@ -8,7 +8,7 @@ class topic(models.Model):
   title=models.CharField(unique=True,max_length=100,null=False,blank=False)
   short_title=models.CharField(unique=True,max_length=50,null=True,blank=True)
   priority = models.IntegerField(unique=True,null=False,blank=False)
-  slug=models.URLField(max_length=200,null=True,blank=True)
+  slug=models.CharField(unique=True,max_length=200,null=True,blank=True)
   img= models.URLField(max_length=200,null=True,blank=True)
   icon=models.CharField(max_length=50,null=True,blank=True)
   problems_count = models.IntegerField(default=0,blank=False)
