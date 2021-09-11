@@ -180,11 +180,24 @@
                   ><i class="material-icons-two-tone">info</i></span
                 ><span class="pc-mtext">FAQs</span></a
               >
-              <a href="/logout" class="pc-link"
+              {% if user.is_authenticated %}
+                <a href="/log_out" class="pc-link"
+                  ><span class="pc-micon"
+                    ><i class="material-icons-two-tone">delete</i></span
+                  ><span class="pc-mtext">Log Out</span></a
+                >
+              {% else %}
+                <a href="/signup" class="pc-link"
                 ><span class="pc-micon"
-                  ><i class="material-icons-two-tone">delete</i></span
-                ><span class="pc-mtext">Log Out</span></a
+                  ><i class="material-icons-two-tone">add</i></span
+                ><span class="pc-mtext">Sign Up</span></a
               >
+              <a href="/log_in" class="pc-link"
+                ><span class="pc-micon"
+                  ><i class="material-icons-two-tone">login</i></span
+                ><span class="pc-mtext">Log in</span></a
+              >
+              {% endif %}
             </li>
           </ul>
         </div>
@@ -310,7 +323,7 @@
                   class="user-avtar"
                 />
                 <span>
-                  <span class="user-name">Joseph William</span>
+                  <span class="user-name">{{request.user}}</span>
                   <span class="user-desc">Administrator</span>
                 </span>
               </a>

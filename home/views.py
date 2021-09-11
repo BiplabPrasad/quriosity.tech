@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 
-# Create your views here.
+# HTML pages
 def index(request):
   return render(request,'dashboard.html')
 
@@ -39,6 +39,7 @@ def settings(request):
 def problems(request):
   return render(request,'problems.html')
 
+# Authentication APIs
 def handleSignup(request):
   if(request.method=='POST'):
     # get the post parameters
