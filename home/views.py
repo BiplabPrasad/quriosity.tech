@@ -226,3 +226,12 @@ def sendEmail(request):
     fail_silently=False,
   )
   return render(request,'email.html')
+
+def forgotUsername(request):
+  return render(request,'forgot-username.html')
+
+def forgotPassword(request):
+  return render(request,'forgot-password.html')
+
+
+

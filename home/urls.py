@@ -16,6 +16,8 @@ urlpatterns = [
     path('settings/',views.settings,name="settings"),
     path('search/',views.search,name="search"),
     path('404/',views.page404,name="404"),
+    path('forgot-username/',views.forgotUsername,name="forgotUsername"),
+    path('forgot-password/',views.forgotPassword,name="forgotPassword"),
     path('email/',views.sendEmail,name="email"),
     path('problems/<str:slug>',views.problems,name="problems"),
     # for handling logout
