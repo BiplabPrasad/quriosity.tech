@@ -9,7 +9,8 @@ from django.core.mail import send_mail
 
 # HTML pages
 def index(request):
-  return render(request,'dashboard.html')
+  # return render(request,'dashboard.html')
+  return redirect('dashboard')
 
 def base(request):
   return render(request,'base.html')
