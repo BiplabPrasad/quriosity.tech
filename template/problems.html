@@ -2,6 +2,15 @@
 {% block title %}Problems | {{request.user}}{% endblock %}
 {% block description %} This page contains problem in the increasing order of their difficulty {% endblock %}
 {% block keywords %}Problems,Quriosity{% endblock %}
+{% block alltopic %}
+{% for topic in alltopic %}
+{% if topic.active == True %}
+  <li class="pc-item">
+    <a class="pc-link" href="/problems/{{topic.slug}}">{{topic.title|truncatechars:20}}</a>
+  </li>
+{% endif %}
+{% endfor %}
+{% endblock %}
 
 {% block body %}
 <div class="pcoded-content">
@@ -45,7 +54,7 @@
           <div class="row align-items-center m-b-0">
             <div class="col">
               <h6 class="m-b-5 text-white">Total Problems</h6>
-              <h3 class="m-b-0 text-white">{{top.problems_count}}</h3>
+              <h3 class="m-b-0 text-white">{{total_problem}}</h3>
             </div>
             <div class="col-auto">
               <i class="material-icons-two-tone text-white">card_giftcard</i>
@@ -60,7 +69,7 @@
           <div class="row align-items-center m-b-0">
             <div class="col">
               <h6 class="m-b-5 text-white">Problems Solved</h6>
-              <h3 class="m-b-0 text-white">72</h3>
+              <h3 class="m-b-0 text-white">{{problem_solved}}</h3>
             </div>
             <div class="col-auto">
               <i class="material-icons-two-tone text-white">local_mall</i>
@@ -75,7 +84,7 @@
           <div class="row align-items-center m-b-0">
             <div class="col">
               <h6 class="m-b-5 text-primary">Problems Remaining</h6>
-              <h3 class="m-b-0 text-primary">35</h3>
+              <h3 class="m-b-0 text-primary">{{problem_unsolved}}</h3>
             </div>
             <div class="col-auto">
               <i class="material-icons-two-tone text-primary">monetization_on</i>
@@ -101,6 +110,7 @@
                 <tr>
                   <th>#</th>
                   <th>Problem Name</th>
+                  <th>Difficulty</th>
                   <th>Action</th>
                   <th>Resources</th>
                 </tr>
@@ -109,15 +119,19 @@
                 {% for problem in prob %}
                 {% if problem.active == True %}
                 <tr>
-                  <td>1</td>
+                  <td>{{ forloop.counter }}</td>
                   <td><a href="{{problem.problem_url}}" target="_blank">{{problem.title}}</a></td>
                   <td>
+                    {{problem.tag}}
+                  </td>
+                  <td>
+                    {% if problem in userProbData and userProbData.like is 'like' %}hello{% else %}not hello{% endif %}
                     <div class="btn-group" role="group">
-                      <input type="radio" class="btn-check" id="btnrdolitecol1" autocomplete="off" name="btnradio3">
-                      <label class="btn btn-light-success" for="btnrdolitecol1"><i class="mr-2"
+                      <input type="radio" class="btn-check" id="like{{ forloop.counter }}" autocomplete="off" name="like{{ forloop.counter }}" checked="checked">
+                      <label class="btn btn-light-success" for="like{{ forloop.counter }}"><i class="mr-2"
                           data-feather="thumbs-up"></i>1565</label>
-                      <input type="radio" class="btn-check" id="btnrdolitecol2" autocomplete="off" name="btnradio3">
-                      <label class="btn btn-light-danger" for="btnrdolitecol2"><i class="mr-2"
+                      <input type="radio" class="btn-check" id="unlike{{ forloop.counter }}" autocomplete="off" name="unlike{{ forloop.counter }}">
+                      <label class="btn btn-light-danger" for="unlike{{ forloop.counter }}"><i class="mr-2"
                           data-feather="thumbs-down"></i>245</label>
                     </div>
                   </td>
@@ -129,8 +143,8 @@
                     {% comment %} check if the video link exists or not. Only then show the buttons {% endcomment %}
                     <a href="{{problem.video_url}}" target="_blank" type="button" class="btn btn-icon btn-outline-danger"><i data-feather="youtube"></i>
                       video</a>
-                    <button type="button" class="btn btn-icon btn-outline-success" disabled><i
-                        data-feather="share"></i>share</button>
+                    {% comment %} <button type="button" class="btn btn-icon btn-outline-success" disabled><i
+                        data-feather="share"></i>share</button> {% endcomment %}
                   </td>
                 </tr>
                 {% endif %}

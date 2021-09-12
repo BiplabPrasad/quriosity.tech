@@ -2,6 +2,15 @@
 {% block title %}Dashboard | {{request.user}}{% endblock %}
 {% block description %} This is the Dashboard of your account {% endblock %}
 {% block keywords %}Dashboard,Quriosity{% endblock %}
+{% block alltopic %}
+{% for topic in alltopic %}
+{% if topic.active == True %}
+  <li class="pc-item">
+    <a class="pc-link" href="/problems/{{topic.slug}}">{{topic.title|truncatechars:20}}</a>
+  </li>
+{% endif %}
+{% endfor %}
+{% endblock %}
 
 {% block body %}
 <div class="pcoded-content">
@@ -47,7 +56,7 @@
             <div class="row align-items-center m-b-0">
               <div class="col">
                 <h3 class="m-b-5">{{topic.title|truncatechars:20}}</h3>
-                <h6 class="m-b-0">{{topic.problems_count}}</h6>
+                {% comment %} <h6 class="m-b-0">{{topic.problems_count}}</h6> {% endcomment %}
               </div>
               <div class="col-auto m-auto">
                 <i class="material-icons-two-tone text-primary">{{topic.icon}}</i>

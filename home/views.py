@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from home.models import problem, topic
+from home.models import problem, topic, userProblemData
 from django.core.mail import send_mail
 
 
@@ -13,7 +13,10 @@ def index(request):
   return redirect('dashboard')
 
 def base(request):
-  return render(request,'base.html')
+  at = topic.objects.all()
+  # print(at)
+  context={'at':at}
+  return render(request,'base.html',context)
 
 def base_copy(request):
   return render(request,'base_copy.html')
@@ -49,11 +52,18 @@ def page404(request):
   return render(request,'404.html')
 
 def problems(request,slug):
+  alltopic = topic.objects.all()
   top = topic.objects.filter(slug=slug).first()
   prob = problem.objects.filter(topic=top).all()
+  total_problem = problem.objects.filter(topic=top).count()
+  problem_solved = userProblemData.objects.filter(user=request.user,completed=True).count()
+  problem_unsolved = total_problem - problem_solved
+  userProbData = userProblemData.objects.filter(user = request.user).all()
   # print(top)
   # print(prob)
-  context = {'top':top,'prob':prob}
+  # print(userProbData)
+  # print(problem_unsolved)
+  context = {'alltopic':alltopic,'top':top,'prob':prob,'userProbData':userProbData,'total_problem':total_problem,'problem_solved':problem_solved,'problem_unsolved':problem_unsolved}
   messages.info(request,"Topic --> "+top.title)
   return render(request,'problems.html',context)
 

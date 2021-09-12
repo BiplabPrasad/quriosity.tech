@@ -30,10 +30,17 @@ class problem(models.Model):
   topic = models.ManyToManyField(topic, verbose_name=_("all topics"))
   title=models.CharField(unique=True,max_length=100,null=False,blank=False)
   short_title=models.CharField(unique=True,max_length=50,null=True,blank=True)
+  TAG_STATUS = (
+    ('Easy', 'Easy'),
+    ('Medium', 'Medium'),
+    ('Hard', 'Hard')
+  )
+  tag=models.CharField(choices=TAG_STATUS,max_length=20,null=True,blank=True)
   priority = models.IntegerField(unique=True,null=False,blank=False)
   slug=models.CharField(unique=True,max_length=200,null=True,blank=True)
   problem_url=models.URLField(max_length=200,null=False,blank=False)
   solution_url=models.URLField(max_length=200,null=False,blank=False)
+  # change the feild of video from url to char with default as '#'
   video_url=models.URLField(max_length=200,null=True,blank=True)
   STATUS = (
     (True, 'Yes'),
@@ -47,7 +54,6 @@ class problem(models.Model):
   def __str__(self):
     template = 'ID - {0.id} ---> {0.title} ---> ACTIVE - {0.active}'
     return template.format(self)
-
 
 
 class userProblemData(models.Model):
