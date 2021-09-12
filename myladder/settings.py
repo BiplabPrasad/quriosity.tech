@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +133,14 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/var/www/static/',
 ]
+
+MESSAGE_TAGS = {
+    messages.ERROR:'danger'
+}
+
+#  for emails
+EMAIL_HOST = 'smtp.quriosity.tech'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'support@quriosity.tech'
+EMAIL_HOST_PASSWORD = 'LqJIbyM2'
+EMAIL_USE_TLS = True

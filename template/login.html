@@ -1,26 +1,19 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-
 <head>
-
-	<title>DashboardKit Bootstrap 5 Admin Template</title>
-	<!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 11]>
-		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
-	<!-- Meta -->
+	<title>Log in</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="description" content="DashboardKit is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
-	<meta name="keywords" content="DashboardKit, Dashboard Kit, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Free Bootstrap Admin Template">
+	<meta name="description"
+		content="DashboardKit is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
+	<meta name="keywords"
+		content="DashboardKit, Dashboard Kit, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Free Bootstrap Admin Template">
 	<meta name="author" content="DashboardKit ">
 
 
 	<!-- Favicon icon -->
-	{% load static %}
 	<link rel="icon" href="{% static 'assets/images/favicon.svg'%}" type="image/x-icon">
 
 	<!-- font css -->
@@ -41,26 +34,52 @@
 			<div class="row align-items-center text-center">
 				<div class="col-md-12">
 					<div class="card-body">
-						<img src="{% static 'assets/images/logo1-small.png'%}" alt="" class="img-fluid mb-4" style="filter: brightness(95%);">
-						<h4 class="mb-3 f-w-400">Login</h4>
-						<div class="input-group mb-3">
-							<span class="input-group-text"><i data-feather="mail"></i></span>
-							<input type="email" class="form-control" name="emailid" id="emailid" placeholder="Email address">
+						<img src="{% static 'assets/images/logo1-small.png'%}" alt="" class="img-fluid mb-4"
+							style="filter: brightness(95%);">
+						<h3 class="mb-3 f-w-400">Login</h3>
+						{% if messages %}
+						{% for message in messages %}
+						{% if message.tags == "error"%}
+						<div {% if message.tags %} class="alert alert-danger alert-dismissible fade show" {% endif %} role="alert">
+							{{ message }}
+							<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
 						</div>
-						<div class="input-group mb-4">
-							<span class="input-group-text"><i data-feather="lock"></i></span>
-							<input type="password" class="form-control" name="password" id="password" placeholder="Password">
+						{% else %}
+						<div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %}
+							role="alert">
+							{{ message }}
+							<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
 						</div>
-						<div class="form-group text-left mt-2">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-								<label class="form-check-label" for="flexCheckChecked">
-									Remember me
-								</label>
+						{% endif %}
+						{% endfor %}
+						{% endif %}
+						<form action="handleLogin/" method="post">
+							{% csrf_token %}
+							<div class="input-group mb-3">
+								<span class="input-group-text"><i data-feather="user"></i></span>
+								<input type="text" class="form-control" name="loginusername" id="loginusername" placeholder="Username" required>
 							</div>
-						</div>
-						<button type="submit" name="login_submit" class="btn btn-block btn-primary mb-4">login</button>
-						<p class="mb-0 text-muted">Don’t have an account? <a href="/signup" class="f-w-400">Sign Up</a></p>
+							<!--<div class="input-group mb-3">
+								<span class="input-group-text"><i data-feather="mail"></i></span>
+								<input type="email" class="form-control" name="loginemail" id="loginemail" placeholder="Email address" required>
+							</div>-->
+							<div class="input-group mb-4">
+								<span class="input-group-text"><i data-feather="lock"></i></span>
+								<input type="password" class="form-control" name="loginpass" id="loginpass" placeholder="Password" required>
+							</div>
+							<div class="form-group text-left mt-2">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="True" name="loginrem" id="loginrem">
+									<label class="form-check-label" for="loginrem">
+										Remember me
+									</label>
+								</div>
+							</div>
+							<button type="submit" name="login_submit" class="btn btn-block btn-primary mb-4">login</button>
+						</form>
+						<p class="mb-0 text-muted">Don’t have an account? <a href="/signup" class="f-w-400 text-primary">Sign Up</a></p></br>
+						<p class="mb-0 text-muted"><a href="/forgot-username" class="f-w-400">forgot username?</a></p>
+						<p class="mb-0 text-muted"><a href="/forgot-password" class="f-w-400">forgot password?</a></p>
 					</div>
 				</div>
 			</div>
@@ -74,9 +93,6 @@
 <script src="{% static 'assets/js/plugins/bootstrap.min.js'%}"></script>
 <script src="{% static 'assets/js/plugins/feather.min.js'%}"></script>
 <script src="{% static 'assets/js/pcoded.min.js'%}"></script>
-<script>
-    $("body").append('<div class="fixed-button active"><a href="https://gumroad.com/dashboardkit" target="_blank" class="btn btn-md btn-success"><i class="material-icons-two-tone text-white">shopping_cart</i> Upgrade To Pro</a> </div>');
-</script>
 
 
 </body>
