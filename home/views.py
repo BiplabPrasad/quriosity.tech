@@ -109,6 +109,9 @@ def handleSignup(request):
     if not username.isalnum():
       messages.error(request,"username should be alphanumeric")
       return redirect('signup')
+    if User.objects.filter(username=username).exists():
+      messages.error(request,"username already taken")
+      return redirect('signup')
     
 
 
@@ -120,6 +123,10 @@ def handleSignup(request):
       messages.error(request,"Enter your email")
       return redirect('signup')
     # check wheather the email does not have any special characters
+    if User.objects.filter(email=email).exists():
+      messages.error(request,"Account with this email already exists")
+      return redirect('signup')
+
 
 
     # ------ validating pass1 -------
@@ -162,7 +169,7 @@ def handleSignup(request):
     myuser.first_name = fname
     myuser.last_name = lname
     myuser.save()
-    messages.success(request,"Your Account has been successfully been created")
+    messages.success(request,"Your Account has been successfully created")
     messages.info(request,"A verification email has been send. Please verify your account")
     return redirect('signup')
   else:
@@ -173,17 +180,23 @@ def handleLogin(request):
   if request.method == 'POST':
     #get the post parameters
     loginusername = request.POST['loginusername']
-    loginemail = request.POST['loginemail']
+    # loginemail = request.POST['loginemail']
     loginpass = request.POST['loginpass']
     # loginrem = request.POST['loginrem']
     loginrem = request.POST.get('loginrem', 'False')
 
     # validating all the data from the login form
-    if len(loginemail)==0:
-      messages.error(request,"Enter email")
-      messages.info(request,loginrem)
-      return redirect('signup')
+    if len(loginusername)==0:
+      messages.error(request,"Enter Username")
+      return redirect('login')
 
+    if not loginusername.isalnum():
+      messages.error(request,"username should be alphanumeric")
+      return redirect('login')
+
+    if len(loginpass)==0:
+      messages.error(request,"Enter Password")
+      return redirect('login')
 
     # validating the user by username and password
     user = authenticate(username = loginusername, password = loginpass)

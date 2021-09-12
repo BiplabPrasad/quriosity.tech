@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 
 
 class topic(models.Model):
-  # problem = models.ForeignKey(problem, related_name='topics', null=True, on_delete=models.CASCADE)
   title=models.CharField(unique=True,max_length=100,null=False,blank=False)
   short_title=models.CharField(unique=True,max_length=50,null=True,blank=True)
   priority = models.IntegerField(unique=True,null=False,blank=False)
@@ -28,7 +27,6 @@ class topic(models.Model):
 
 
 class problem(models.Model):
-  # topic_id = models.IntegerField(null=False,blank=False)
   topic = models.ManyToManyField(topic, verbose_name=_("all topics"))
   title=models.CharField(unique=True,max_length=100,null=False,blank=False)
   short_title=models.CharField(unique=True,max_length=50,null=True,blank=True)
@@ -44,9 +42,13 @@ class problem(models.Model):
   active = models.BooleanField(choices=STATUS,default=False, blank=False)
   last_modified_data = models.DateField(auto_now=True)
   last_modified_time = models.DateTimeField(auto_now=True)
+  # def tags(self):
+  #   return ','.join([str(p) for p in self.topic.all()])
   def __str__(self):
     template = 'ID - {0.id} ---> {0.title} ---> ACTIVE - {0.active}'
     return template.format(self)
+
+
 
 class userProblemData(models.Model):
   user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -69,4 +71,6 @@ class userProblemData(models.Model):
   def __str__(self):
     template = 'ID - {0.id} ---> user - {0.user} ---> problem- {0.problem}'
     return template.format(self)
+
+
 
