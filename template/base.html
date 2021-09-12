@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
   <title>{% block title %} {% endblock %}</title>
   <meta charset="utf-8" />
@@ -71,9 +72,8 @@
             <label>Problems</label>
           </li>
           <li class="pc-item pc-hasmenu">
-            <a href="#!" class="pc-link"><span class="pc-micon"><i
-                  class="material-icons-two-tone">topic</i></span><span class="pc-mtext">Topics</span><span
-                class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+            <a href="#!" class="pc-link"><span class="pc-micon"><i class="material-icons-two-tone">topic</i></span><span
+                class="pc-mtext">Topics</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
             <ul class="pc-submenu">
               {% block alltopic %}{% endblock %}
             </ul>
@@ -90,12 +90,14 @@
           <li class="pc-item">
             <a href="/dashboard" class="pc-link"><span class="pc-micon"><i
                   class="material-icons-two-tone">dashboard</i></span><span class="pc-mtext">Dashboard</span></a>
-            <a href="/profile" class="pc-link"><span class="pc-micon"><i
+            {% comment %} <a href="/profile" class="pc-link"><span class="pc-micon"><i
                   class="material-icons-two-tone">perm_identity</i></span><span class="pc-mtext">Profile</span></a>
+            {% endcomment %}
             <a href="/activity" class="pc-link"><span class="pc-micon"><i
                   class="material-icons-two-tone">history</i></span><span class="pc-mtext">Activity</span></a>
-            <a href="/settings" class="pc-link"><span class="pc-micon"><i
+            {% comment %} <a href="/settings" class="pc-link"><span class="pc-micon"><i
                   class="material-icons-two-tone">settings</i></span><span class="pc-mtext">Settings</span></a>
+            {% endcomment %}
             <a href="/faq" class="pc-link"><span class="pc-micon"><i
                   class="material-icons-two-tone">info</i></span><span class="pc-mtext">FAQs</span></a>
             {% if user.is_authenticated %}
@@ -210,7 +212,8 @@
             <div class="dropdown-menu dropdown-menu-right pc-h-dropdown">
               <div class="dropdown-header">
                 <h5 class="text-overflow m-0">
-                  <span class="badge bg-light-primary">{% if user.is_authenticated %}{{request.user.first_name}} {{request.user.last_name}}{% else %}For more features{% endif %}</span>
+                  <span class="badge bg-light-primary">{% if user.is_authenticated %}{{request.user.first_name}}
+                    {{request.user.last_name}}{% else %}For more features{% endif %}</span>
                 </h5>
               </div>
               {% if user.is_authenticated %}

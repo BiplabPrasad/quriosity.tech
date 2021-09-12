@@ -5,9 +5,9 @@
 {% block alltopic %}
 {% for topic in alltopic %}
 {% if topic.active == True %}
-  <li class="pc-item">
-    <a class="pc-link" href="/problems/{{topic.slug}}">{{topic.title|truncatechars:20}}</a>
-  </li>
+<li class="pc-item">
+  <a class="pc-link" href="/problems/{{topic.slug}}">{{topic.title|truncatechars:20}}</a>
+</li>
 {% endif %}
 {% endfor %}
 {% endblock %}

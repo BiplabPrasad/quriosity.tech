@@ -28,7 +28,10 @@ def log_in(request):
   return render(request,'login.html')
 
 def activity(request):
-  return render(request,'activity.html')
+  alltopic = topic.objects.all()
+  prob = userProblemData.objects.filter(user=request.user).all()
+  context = {'alltopic':alltopic,'prob':prob}
+  return render(request,'activity.html',context)
 
 def dashboard(request):
   alltopic = topic.objects.all()
@@ -37,7 +40,9 @@ def dashboard(request):
   return render(request,'dashboard.html',context)
 
 def faq(request):
-  return render(request,'faq.html')
+  alltopic = topic.objects.all()
+  context = {'alltopic':alltopic}
+  return render(request,'faq.html',context)
 
 def profile(request):
   return render(request,'profile.html')
