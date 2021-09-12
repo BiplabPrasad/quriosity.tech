@@ -14,6 +14,9 @@ urlpatterns = [
     path('faq/',views.faq,name="faq"),
     path('profile/',views.profile,name="profile"),
     path('settings/',views.settings,name="settings"),
+    path('search/',views.search,name="search"),
+    path('404/',views.page404,name="404"),
+    path('email/',views.sendEmail,name="email"),
     path('problems/<str:slug>',views.problems,name="problems"),
     # for handling logout
     path('log_out/',views.log_out,name="log_out"),

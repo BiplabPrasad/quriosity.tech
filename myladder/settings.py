@@ -137,3 +137,10 @@ STATICFILES_DIRS = [
 MESSAGE_TAGS = {
     messages.ERROR:'danger'
 }
+
+#  for emails
+EMAIL_HOST = 'smtp.quriosity.tech'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'support@quriosity.tech'
+EMAIL_HOST_PASSWORD = 'LqJIbyM2'
+EMAIL_USE_TLS = True

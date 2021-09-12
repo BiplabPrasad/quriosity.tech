@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from home.models import topic
+from home.models import problem, topic
+from django.core.mail import send_mail
 
 
 # HTML pages
@@ -40,10 +41,18 @@ def profile(request):
 def settings(request):
   return render(request,'settings.html')
 
+def search(request):
+  return render(request,'search.html')
+
+def page404(request):
+  return render(request,'404.html')
+
 def problems(request,slug):
   top = topic.objects.filter(slug=slug).first()
+  prob = problem.objects.filter(topic=top).all()
   # print(top)
-  context = {'top':top}
+  # print(prob)
+  context = {'top':top,'prob':prob}
   messages.info(request,"Topic --> "+top.title)
   return render(request,'problems.html',context)
 
@@ -194,3 +203,13 @@ def log_out(request):
   messages.success(request,"Successfully Logged Out")
   return redirect('log_in')
 
+def sendEmail(request):
+  # I will send the email here
+  send_mail(
+    'Subject Test',
+    'Here is the test message.',
+    'support@quriosity.tech',
+    ['quriosity.tech@gmail.com'],
+    fail_silently=False,
+  )
+  return render(request,'email.html')
