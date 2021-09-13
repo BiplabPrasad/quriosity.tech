@@ -79,4 +79,42 @@ class userProblemData(models.Model):
     return template.format(self)
 
 
+class faq(models.Model):
+  title=models.CharField(unique=True,max_length=300,null=False,blank=False)
+  short_title=models.CharField(unique=True,max_length=100,null=True,blank=True)
+  text=models.TextField(null=False,blank=False)
+  priority = models.IntegerField(unique=True,null=False,blank=False)
+  STATUS = (
+    (True, 'Yes'),
+    (False, 'No')
+  )
+  active = models.BooleanField(choices=STATUS,default=False, blank=False)
+  last_modified_data = models.DateField(auto_now=True)
+  last_modified_time = models.DateTimeField(auto_now=True)
+  def __str__(self):
+    template = '{0.title} ---> ACTIVE - {0.active}'
+    return template.format(self)
+
+
+class account_verification(models.Model):
+  user = models.ForeignKey(User,on_delete=models.CASCADE)
+  verification_code=models.CharField(unique=True,max_length=100,null=False,blank=False)
+  verification_link=models.URLField(unique=True,max_length=300,null=False,blank=False)
+  STATUS = (
+    (True, 'verified'),
+    (False, 'Not verified')
+  )
+  verification_status = models.BooleanField(choices=STATUS,default=False, blank=False)
+  STATUS2 = (
+    (True, 'Active account'),
+    (False, 'Blocked account')
+  )
+  account_status = models.BooleanField(choices=STATUS2,default=False, blank=False)
+  last_modified_data = models.DateField(auto_now=True)
+  last_modified_time = models.DateTimeField(auto_now=True)
+  def __str__(self):
+    template = 'user - {0.user} ---> STATUS - {0.verification_status} ---> Acc. Status - {0.account_status}'
+    return template.format(self)
+
+
 
