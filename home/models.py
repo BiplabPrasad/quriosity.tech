@@ -19,8 +19,10 @@ class topic(models.Model):
     (False, 'No')
   )
   active = models.BooleanField(choices=STATUS,default=False, blank=False)
-  last_modified_data = models.DateField(auto_now=True)
-  last_modified_time = models.DateTimeField(auto_now=True)
+  # last_modified_data = models.DateField(auto_now=True)
+  # last_modified_time = models.DateTimeField(auto_now=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  last_updated_at = models.DateTimeField(auto_now=True)
   def __str__(self):
     template = 'ID - {0.id} ---> {0.title}({0.problems_count}) ---> ACTIVE - {0.active}'
     return template.format(self)
@@ -38,22 +40,32 @@ class problem(models.Model):
   tag=models.CharField(choices=TAG_STATUS,max_length=20,null=True,blank=True)
   priority = models.IntegerField(unique=True,null=False,blank=False)
   slug=models.CharField(unique=True,max_length=200,null=True,blank=True)
-  problem_url=models.URLField(max_length=200,null=False,blank=False)
-  solution_url=models.URLField(max_length=200,null=False,blank=False)
+  problem_url=models.URLField(max_length=250,null=False,blank=False)
+  solution_url=models.URLField(max_length=250,null=False,blank=False)
   # change the feild of video from url to char with default as '#'
-  video_url=models.URLField(max_length=200,null=True,blank=True)
+  # video_url=models.URLField(max_length=200,null=True,blank=True)
+  video_url=models.CharField(max_length=250,default='#',null=True,blank=True)
   STATUS = (
     (True, 'Yes'),
     (False, 'No')
   )
   active = models.BooleanField(choices=STATUS,default=False, blank=False)
-  last_modified_data = models.DateField(auto_now=True)
-  last_modified_time = models.DateTimeField(auto_now=True)
+  # last_modified_data = models.DateField(auto_now=True)
+  # last_modified_time = models.DateTimeField(auto_now=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  last_updated_at = models.DateTimeField(auto_now=True)
   # def tags(self):
   #   return ','.join([str(p) for p in self.topic.all()])
   def __str__(self):
     template = 'ID - {0.id} ---> {0.title} ---> ACTIVE - {0.active}'
     return template.format(self)
+  # trying to modify
+  # def get_total_problems(self):
+  #   return self.title.count()
+  # def get_total_likes(self):
+  #   return self.likes.users.count()
+  # def get_total_dis_likes(self):
+  #   return self.dis_likes.users.count()
 
 
 class userProblemData(models.Model):
@@ -72,8 +84,10 @@ class userProblemData(models.Model):
   viewed_solution = models.BooleanField(choices=STATUS2,default=False,null=False, blank=False)
   viewed_video = models.BooleanField(choices=STATUS2,default=False,null=False, blank=False)
   shared = models.BooleanField(choices=STATUS2,default=False,null=False, blank=False)
-  last_modified_data = models.DateField(auto_now=True)
-  last_modified_time = models.DateTimeField(auto_now=True)
+  # last_modified_data = models.DateField(auto_now=True)
+  # last_modified_time = models.DateTimeField(auto_now=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  last_updated_at = models.DateTimeField(auto_now=True)
   def __str__(self):
     template = 'ID - {0.id} ---> user - {0.user} ---> problem- {0.problem}'
     return template.format(self)
@@ -89,8 +103,10 @@ class myfaq(models.Model):
     (False, 'No')
   )
   active = models.BooleanField(choices=STATUS,default=False, blank=False)
-  last_modified_data = models.DateField(auto_now=True)
-  last_modified_time = models.DateTimeField(auto_now=True)
+  # last_modified_data = models.DateField(auto_now=True)
+  # last_modified_time = models.DateTimeField(auto_now=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  last_updated_at = models.DateTimeField(auto_now=True)
   def __str__(self):
     template = '{0.title} ---> ACTIVE - {0.active}'
     return template.format(self)
@@ -110,8 +126,10 @@ class account_verification(models.Model):
     (False, 'Blocked account')
   )
   account_status = models.BooleanField(choices=STATUS2,default=False, blank=False)
-  last_modified_data = models.DateField(auto_now=True)
-  last_modified_time = models.DateTimeField(auto_now=True)
+  # last_modified_data = models.DateField(auto_now=True)
+  # last_modified_time = models.DateTimeField(auto_now=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  last_updated_at = models.DateTimeField(auto_now=True)
   def __str__(self):
     template = 'user - {0.user} ---> STATUS - {0.verification_status} ---> Acc. Status - {0.account_status}'
     return template.format(self)
