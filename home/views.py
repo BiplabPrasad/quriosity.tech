@@ -70,7 +70,7 @@ def problems(request,slug):
   # print(prob)
   # print(userProbData)
   # print(problem_unsolved)
-  context = {'alltopic':alltopic,'top':top,'prob':prob,'userProbData':userProbData,'total_problem':total_problem,'problem_solved':problem_solved,'problem_unsolved':problem_unsolved}
+  context = {'alltopic':alltopic,'top':top,'prob':prob,'userProbData':userProbData,'total_problem':total_problem,'problem_solved':problem_solved,'problem_unsolved':problem_unsolved,'myuser':request.user}
   messages.info(request,"Topic --> "+top.title)
   return render(request,'problems.html',context)
 

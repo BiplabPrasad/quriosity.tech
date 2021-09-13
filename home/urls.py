@@ -2,6 +2,12 @@ from django.contrib import admin
 from django.urls import path
 from home import views
 
+# for customizing the admin panel
+admin.site.site_header = "Quriosity Administration"
+admin.site.site_title = "Quriosity Admin Panel"
+admin.site.index_title = "Welcome to Quriosity.tech admin panel"
+
+
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('',views.index,name="index"),

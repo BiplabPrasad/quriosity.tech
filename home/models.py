@@ -72,8 +72,8 @@ class userProblemData(models.Model):
   user = models.ForeignKey(User,on_delete=models.CASCADE)
   problem = models.ForeignKey(problem,on_delete=models.CASCADE)
   STATUS = (
-    (True, 'like'),
-    (False, 'unlike')
+    (True, 'Like'),
+    (False, 'Unlike')
   )
   STATUS2 = (
     (True, 'Yes'),
@@ -91,6 +91,12 @@ class userProblemData(models.Model):
   def __str__(self):
     template = 'ID - {0.id} ---> user - {0.user} ---> problem- {0.problem}'
     return template.format(self)
+  # check if a problem status can be unique for a user
+  class Meta:
+    constraints = [
+        models.UniqueConstraint(fields=['user', 'problem'], name='unique status of ever problem for a user')
+    ]
+
 
 
 class myfaq(models.Model):
