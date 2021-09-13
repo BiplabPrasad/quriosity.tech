@@ -79,7 +79,7 @@ class userProblemData(models.Model):
     return template.format(self)
 
 
-class faq(models.Model):
+class myfaq(models.Model):
   title=models.CharField(unique=True,max_length=300,null=False,blank=False)
   short_title=models.CharField(unique=True,max_length=100,null=True,blank=True)
   text=models.TextField(null=False,blank=False)

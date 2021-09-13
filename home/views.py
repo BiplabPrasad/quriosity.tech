@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from home.models import problem, topic, userProblemData
+from home.models import problem, topic, userProblemData, myfaq, account_verification
 from django.core.mail import send_mail
 
 
@@ -41,8 +41,10 @@ def dashboard(request):
 
 def faq(request):
   alltopic = topic.objects.all()
-  context = {'alltopic':alltopic}
-  return render(request,'faq.html',context)
+  allfaq = myfaq.objects.all()
+  print(allfaq)
+  context = {'alltopic':alltopic, 'allfaq':allfaq}
+  return render(request,'faqs.html',context)
 
 def profile(request):
   return render(request,'profile.html')
