@@ -3,9 +3,10 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from home.models import problem, topic, userProblemData, myfaq, account_verification
+from home.models import problem, topic, userProblemData, myfaq, account_verification, like
 from django.core.mail import send_mail
-
+from django.shortcuts import get_object_or_404 
+import json
 
 # HTML pages
 def index(request):
@@ -29,7 +30,7 @@ def log_in(request):
 
 def activity(request):
   alltopic = topic.objects.all()
-  prob = userProblemData.objects.filter(user=request.user).all()
+  prob = userProblemData.objects.filter(user=request.user).all().order_by('-last_updated_at')
   context = {'alltopic':alltopic,'prob':prob}
   return render(request,'activity.html',context)
 
@@ -59,18 +60,32 @@ def page404(request):
   return render(request,'404.html')
 
 def problems(request,slug):
+  print("I am in problems view")
   alltopic = topic.objects.all()
   top = topic.objects.filter(slug=slug).first()
-  prob = problem.objects.filter(topic=top).all()
+  prob = problem.objects.filter(topic=top).all().order_by('priority')
   total_problem = problem.objects.filter(topic=top).count()
   problem_solved = userProblemData.objects.filter(user=request.user,completed=True).count()
   problem_unsolved = total_problem - problem_solved
   userProbData = userProblemData.objects.filter(user = request.user).all()
+  user = request.user
+  # print(userProbData)
   # print(top)
   # print(prob)
   # print(userProbData)
   # print(problem_unsolved)
-  context = {'alltopic':alltopic,'top':top,'prob':prob,'userProbData':userProbData,'total_problem':total_problem,'problem_solved':problem_solved,'problem_unsolved':problem_unsolved,'myuser':request.user}
+  context = {
+    'alltopic':alltopic,
+    'top':top,
+    'prob':prob,
+    'slug':slug,
+    'userProbData':userProbData,
+    'total_problem':total_problem,
+    'problem_solved':problem_solved,
+    'problem_unsolved':problem_unsolved,
+    'user':user,
+
+  }
   messages.info(request,"Topic --> "+top.title)
   return render(request,'problems.html',context)
 
@@ -251,5 +266,55 @@ def forgotUsername(request):
 def forgotPassword(request):
   return render(request,'forgot-password.html')
 
+# trying the like functionality
+# def like_button(request):
+#   if request.method =="POST":
+#     if request.POST.get("operation") == "like_submit" and request.is_ajax():
+#       content_id=request.POST.get("content_id",None)
+#       content=get_object_or_404(problem,pk=content_id)
+#       if content.likes.filter(id=request.user.id): #already liked the content
+#         content.likes.remove(request.user) #remove user from likes 
+#         liked=False
+#       else:
+#         content.likes.add(request.user) 
+#         liked=True
+#       ctx={
+#         # "likes_count":content.get_total_likes,
+#         # "liked":liked,
+#         "content_id":content_id
+#       }
+#       return HttpResponse(json.dumps(ctx), content_type='application/json')
+#   contents=problem.objects.all()
+#   already_liked=[]
+#   id=request.user.id
+#   for content in contents:
+#     if(content.likes.filter(id=id).exists()):
+#       already_liked.append(content.id)
+#   ctx={"contents":contents,"already_liked":already_liked}
+#   return render(request,"like/like_template.html",ctx)
 
+def likePost(request):
+  print("i am here")
+  #check if the user is anonymous then display the message to login
+  if request.method == 'POST':
+    user = request.user
+    problem_id = request.POST.get('post_id')
+    slug_id = request.POST.get('slug_id')
+    problem_obj= problem.objects.get(id=problem_id)
 
+    if user in problem_obj.liked.all():
+      # user has already liked it before but is clicking the like button again
+      problem_obj.liked.remove(user)
+    else:
+      problem_obj.liked.add(user)
+    like_obj, created = like.objects.get_or_create(user=user,problem_id=problem_id).first()
+    if not created:
+      if like_obj.value == 'Like':
+        like_obj.value = 'Unlike'
+      else:
+        like_obj.value = 'Like'
+    like_obj.save()
+
+  # return redirect(problems,slug_id)
+  html = "<html><body>Hello World</body></html>"
+  return HttpResponse(html)

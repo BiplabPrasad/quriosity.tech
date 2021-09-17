@@ -5,9 +5,9 @@
 {% block alltopic %}
 {% for topic in alltopic %}
 {% if topic.active == True %}
-  <li class="pc-item">
-    <a class="pc-link" href="/problems/{{topic.slug}}">{{topic.title|truncatechars:20}}</a>
-  </li>
+<li class="pc-item">
+  <a class="pc-link" href="/problems/{{topic.slug}}">{{topic.title|truncatechars:20}}</a>
+</li>
 {% endif %}
 {% endfor %}
 {% endblock %}
@@ -123,35 +123,51 @@
                   <td><a href="{{problem.problem_url}}" target="_blank">{{problem.title}}</a></td>
                   <td>
                     {% if problem.tag == 'Easy' %}
-                      <span class="badge bg-light-success">{{problem.tag}}</span>
+                    <span class="badge bg-light-success">{{problem.tag}}</span>
                     {% elif problem.tag == 'Medium' %}
-                      <span class="badge bg-light-warning">{{problem.tag}}</span>
+                    <span class="badge bg-light-warning">{{problem.tag}}</span>
                     {% else %}
-                      <span class="badge bg-light-danger">{{problem.tag}}</span>
+                    <span class="badge bg-light-danger">{{problem.tag}}</span>
                     {% endif %}
                   </td>
                   <td>
                     <div class="btn-group" role="group">
-                      <input type="radio" class="btn-check" id="like{{ forloop.counter }}" autocomplete="off" name="like{{ forloop.counter }}" checked="checked">
-                      <label class="btn btn-light-success" for="like{{ forloop.counter }}"><i class="mr-2"
-                          data-feather="thumbs-up"></i>1565</label>
-                      <input type="radio" class="btn-check" id="unlike{{ forloop.counter }}" autocomplete="off" name="unlike{{ forloop.counter }}">
-                      <label class="btn btn-light-danger" for="unlike{{ forloop.counter }}"><i class="mr-2"
-                          data-feather="thumbs-down"></i>245</label>
+                      <form action="likePost/" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="problem_id" value="{{ problem.id }}">
+                        <input type="hidden" name="slug_id" value="{{ slug }}">
+                        {% if user not in problem.liked.all %}
+                        <button class="ui button positive" type="submit">Like</button>
+                        {% else %}
+                        <button class="ui button negative" type="submit">Unlike</button>
+                        {% endif %}
+                        <strong>{{problem.liked.all.count}} Likes</strong>
+
+                        {% comment %} <input type="radio" class="btn-check" id="like{{ forloop.counter }}"
+                          autocomplete="off" name="problem_id" value="{{problem.id}}">
+                        <label class="btn btn-light-success" for="like{{ forloop.counter }}"><i class="mr-2"
+                            data-feather="thumbs-up"></i>1565</label>
+                        <input type="radio" class="btn-check" id="unlike{{ forloop.counter }}" autocomplete="off"
+                          name="unlike{{ forloop.counter }}">
+                        <label class="btn btn-light-danger" for="unlike{{ forloop.counter }}"><i class="mr-2"
+                            data-feather="thumbs-down"></i>245</label> {% endcomment %}
+                      </form>
                     </div>
                   </td>
                   <td style="align-items: center;">
-                    {% if userProbData.user == myuser and userProbData.problem == problem and userProbData.completed == True %}
-                      done
+                    {% if userProbData %}
+                    done
                     {% else %}
-                      not done
+                    not done
                     {% endif %}
                     <button type="button" class="btn btn-icon btn-outline-success"><i data-feather="check-circle"></i>
                       mark as complete</button>
-                    <a href="{{problem.solution_url}}" target="_blank" type="button" class="btn btn-icon btn-outline-primary"><i data-feather="code"></i>
+                    <a href="{{problem.solution_url}}" target="_blank" type="button"
+                      class="btn btn-icon btn-outline-primary"><i data-feather="code"></i>
                       solution</a>
                     {% comment %} check if the video link exists or not. Only then show the buttons {% endcomment %}
-                    <a href="{{problem.video_url}}" target="_blank" type="button" class="btn btn-icon btn-outline-danger"><i data-feather="youtube"></i>
+                    <a href="{{problem.video_url}}" target="_blank" type="button"
+                      class="btn btn-icon btn-outline-danger"><i data-feather="youtube"></i>
                       video</a>
                     {% comment %} <button type="button" class="btn btn-icon btn-outline-success" disabled><i
                         data-feather="share"></i>share</button> {% endcomment %}

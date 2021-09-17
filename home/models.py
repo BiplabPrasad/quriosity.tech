@@ -24,7 +24,8 @@ class topic(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   last_updated_at = models.DateTimeField(auto_now=True)
   def __str__(self):
-    template = 'ID - {0.id} ---> {0.title}({0.problems_count}) ---> ACTIVE - {0.active}'
+    # template = 'ID - {0.id} ---> {0.title}({0.problems_count}) ---> ACTIVE - {0.active}'
+    template = '{0.title}'
     return template.format(self)
 
 
@@ -45,6 +46,8 @@ class problem(models.Model):
   # change the feild of video from url to char with default as '#'
   # video_url=models.URLField(max_length=200,null=True,blank=True)
   video_url=models.CharField(max_length=250,default='#',null=True,blank=True)
+  liked = models.ManyToManyField(User, default=None, blank=True, related_name='liked')
+  disliked = models.ManyToManyField(User, default=None, blank=True, related_name='disliked')
   STATUS = (
     (True, 'Yes'),
     (False, 'No')
@@ -54,18 +57,30 @@ class problem(models.Model):
   # last_modified_time = models.DateTimeField(auto_now=True)
   created_at = models.DateTimeField(auto_now_add=True)
   last_updated_at = models.DateTimeField(auto_now=True)
-  # def tags(self):
-  #   return ','.join([str(p) for p in self.topic.all()])
+
   def __str__(self):
-    template = 'ID - {0.id} ---> {0.title} ---> ACTIVE - {0.active}'
-    return template.format(self)
-  # trying to modify
-  # def get_total_problems(self):
-  #   return self.title.count()
-  # def get_total_likes(self):
-  #   return self.likes.users.count()
-  # def get_total_dis_likes(self):
-  #   return self.dis_likes.users.count()
+    return str(self.title)
+  
+  @property
+  def num_likes(self):
+    return self.liked.all().count()
+
+  def num_dislikes(self):
+    return self.disliked.all().count()
+
+
+LIKE_CHOICES = (
+  ('Like', 'Like'),
+  ('Unlike', 'Unlike'),
+)
+
+class like(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  problem = models.ForeignKey(problem, on_delete=models.CASCADE)
+  value = models.CharField(choices=LIKE_CHOICES,default='Like',max_length=10)
+
+  def __str__(self):
+      return str(self.post)
 
 
 class userProblemData(models.Model):
@@ -89,7 +104,7 @@ class userProblemData(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   last_updated_at = models.DateTimeField(auto_now=True)
   def __str__(self):
-    template = 'ID - {0.id} ---> user - {0.user} ---> problem- {0.problem}'
+    template = 'user - {0.user} ---> problem - {0.problem}'
     return template.format(self)
   # check if a problem status can be unique for a user
   class Meta:
