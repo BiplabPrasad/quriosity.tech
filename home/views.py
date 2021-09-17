@@ -323,3 +323,15 @@ def likePost(request):
   # return redirect(problems,slug_id)
   html = "<html><body>Hello World</body></html>"
   return HttpResponse(html)
+
+
+
+def ProblemLike(request, pk):
+  post = get_object_or_404(problem, id=request.POST.get('problem_id'))
+  if post.liked.filter(id=request.user.id).exists():
+    post.liked.remove(request.user)
+  else:
+    print("i am here")
+    post.liked.add(request.user)
+
+  return redirect(request.META.get('HTTP_REFERER'))

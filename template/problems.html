@@ -69,7 +69,7 @@
           <div class="row align-items-center m-b-0">
             <div class="col">
               <h6 class="m-b-5 text-white">Problems Solved</h6>
-              <h3 class="m-b-0 text-white">{{problem_solved}}</h3>
+              <h3 class="m-b-0 text-white">NA <!--{{problem_solved}}--></h3>
             </div>
             <div class="col-auto">
               <i class="material-icons-two-tone text-white">local_mall</i>
@@ -84,7 +84,7 @@
           <div class="row align-items-center m-b-0">
             <div class="col">
               <h6 class="m-b-5 text-primary">Problems Remaining</h6>
-              <h3 class="m-b-0 text-primary">{{problem_unsolved}}</h3>
+              <h3 class="m-b-0 text-primary">NA<!--{{problem_unsolved}}--></h3>
             </div>
             <div class="col-auto">
               <i class="material-icons-two-tone text-primary">monetization_on</i>
@@ -111,7 +111,7 @@
                   <th>#</th>
                   <th>Problem Name</th>
                   <th>Difficulty</th>
-                  {% comment %} <th>Action</th> {% endcomment %}
+                  <th> likes</th>
                   <th>Resources</th>
                 </tr>
               </thead>
@@ -120,7 +120,7 @@
                 {% if problem.active == True %}
                 <tr>
                   <td>{{ forloop.counter }}</td>
-                  <td><a href="{{problem.problem_url}}" target="_blank">{{problem.title}}</a></td>
+                  <td><a href="{% url 'likePost' problem.id %}" target="_blank">{{problem.title}}</a></td>
                   <td>
                     {% if problem.tag == 'Easy' %}
                     <span class="badge bg-light-success">{{problem.tag}}</span>
@@ -130,30 +130,29 @@
                     <span class="badge bg-light-danger">{{problem.tag}}</span>
                     {% endif %}
                   </td>
-                  {% comment %} <td>
+                  <td>
                     <div class="btn-group" role="group">
-                      <form action="likePost/" method="POST">
+                      <form action="{% url 'likePost' problem.id %}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="problem_id" value="{{ problem.id }}">
                         <input type="hidden" name="slug_id" value="{{ slug }}">
                         {% if user not in problem.liked.all %}
-                        <button class="ui button positive" type="submit">Like</button>
+                        <button class="btn btn-light-success" type="submit"><i class="mr-2" data-feather="thumbs-up"></i> {{problem.liked.all.count}}</button>
                         {% else %}
-                        <button class="ui button negative" type="submit">Unlike</button>
+                        <button class="btn btn-success" type="submit"><i class="mr-2" data-feather="thumbs-up"></i> {{problem.liked.all.count}}</button>
                         {% endif %}
-                        <strong>{{problem.liked.all.count}} Likes</strong>
-
-                        <!-- <input type="radio" class="btn-check" id="like{{ forloop.counter }}"
+                        {% comment %} 
+                        <input type="radio" class="btn-check" id="like{{ forloop.counter }}"
                           autocomplete="off" name="problem_id" value="{{problem.id}}">
                         <label class="btn btn-light-success" for="like{{ forloop.counter }}"><i class="mr-2"
                             data-feather="thumbs-up"></i>1565</label>
                         <input type="radio" class="btn-check" id="unlike{{ forloop.counter }}" autocomplete="off"
                           name="unlike{{ forloop.counter }}">
                         <label class="btn btn-light-danger" for="unlike{{ forloop.counter }}"><i class="mr-2"
-                            data-feather="thumbs-down"></i>245</label> -->
+                            data-feather="thumbs-down"></i>245</label>  {% endcomment %}
                       </form>
                     </div>
-                  </td> {% endcomment %}
+                  </td>
                   <td style="align-items: center;" align="center">
                     {% comment %} {% if userProbData %}
                     done
@@ -163,11 +162,11 @@
                     <button type="button" class="btn btn-icon btn-outline-success"><i data-feather="check-circle"></i>
                       mark as complete</button> {% endcomment %}
                     <a href="{{problem.solution_url}}" target="_blank" type="button"
-                      class="btn btn-sm btn-icon btn-outline-primary"><i data-feather="code"></i>
+                      class="btn btn-icon btn-outline-primary"><i data-feather="code"></i>
                       solution</a>
                     {% comment %} check if the video link exists or not. Only then show the buttons {% endcomment %}
                     <a href="{{problem.video_url}}" target="_blank" type="button"
-                      class="btn btn-sm btn-icon btn-outline-danger"><i data-feather="youtube"></i>
+                      class="btn btn-icon btn-outline-danger"><i data-feather="youtube"></i>
                       video</a>
                       {% comment %} <script>
                         function myFunction() {

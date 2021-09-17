@@ -1,9 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from home import views
-# from .views import like_button
-# from .views import likePost
-from django.conf.urls import url
+# from django.conf.urls import url
 
 # for customizing the admin panel
 admin.site.site_header = "Quriosity Administration"
@@ -37,6 +35,7 @@ urlpatterns = [
     # for handling like action
     # url(r'^like/$', views.like_button, name='like_button'),
     # like try here
-    path('problems/likePost/',views.likePost,name='likePost'),
+    # path('problems/likePost/<int:pk>',views.likePost,name='likePost'),
+    path('problems/likePost/<int:pk>',views.ProblemLike,name='likePost'),
     path('problems/<slug:slug>',views.problems,name="problems"),
 ]
