@@ -25,9 +25,9 @@ urlpatterns = [
     path('settings/',views.settings,name="settings"),
     path('search/',views.search,name="search"),
     path('404/',views.page404,name="404"),
-    # path('forgot-username/',views.forgotUsername,name="forgotUsername"),
-    # path('forgot-password/',views.forgotPassword,name="forgotPassword"),
-    path('email/',views.sendEmail,name="email"),
+    path('forgot-username/',views.forgotUsername,name="forgotUsername"),
+    path('forgot-password/',views.forgotPassword,name="forgotPassword"),
+    # path('email/',views.sendEmail,name="email"),
     # for handling logout
     path('log_out/',views.log_out,name="log_out"),
     # for handling signup
@@ -37,6 +37,6 @@ urlpatterns = [
     # for handling like action
     # url(r'^like/$', views.like_button, name='like_button'),
     # like try here
-    path('problems/likePost/likePost',views.likePost,name='likePost'),
+    path('problems/likePost/',views.likePost,name='likePost'),
     path('problems/<slug:slug>',views.problems,name="problems"),
 ]

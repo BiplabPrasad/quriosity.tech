@@ -24,7 +24,7 @@
           </div>
           <ul class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/problems">Problems</a>
+              <a href="#" >Problems</a>
             </li>
             <li class="breadcrumb-item">
               <a href="/problems/{{top.slug}}">{{top.title}}</a>
@@ -111,7 +111,7 @@
                   <th>#</th>
                   <th>Problem Name</th>
                   <th>Difficulty</th>
-                  <th>Action</th>
+                  {% comment %} <th>Action</th> {% endcomment %}
                   <th>Resources</th>
                 </tr>
               </thead>
@@ -130,7 +130,7 @@
                     <span class="badge bg-light-danger">{{problem.tag}}</span>
                     {% endif %}
                   </td>
-                  <td>
+                  {% comment %} <td>
                     <div class="btn-group" role="group">
                       <form action="likePost/" method="POST">
                         {% csrf_token %}
@@ -143,33 +143,39 @@
                         {% endif %}
                         <strong>{{problem.liked.all.count}} Likes</strong>
 
-                        {% comment %} <input type="radio" class="btn-check" id="like{{ forloop.counter }}"
+                        <!-- <input type="radio" class="btn-check" id="like{{ forloop.counter }}"
                           autocomplete="off" name="problem_id" value="{{problem.id}}">
                         <label class="btn btn-light-success" for="like{{ forloop.counter }}"><i class="mr-2"
                             data-feather="thumbs-up"></i>1565</label>
                         <input type="radio" class="btn-check" id="unlike{{ forloop.counter }}" autocomplete="off"
                           name="unlike{{ forloop.counter }}">
                         <label class="btn btn-light-danger" for="unlike{{ forloop.counter }}"><i class="mr-2"
-                            data-feather="thumbs-down"></i>245</label> {% endcomment %}
+                            data-feather="thumbs-down"></i>245</label> -->
                       </form>
                     </div>
-                  </td>
-                  <td style="align-items: center;">
-                    {% if userProbData %}
+                  </td> {% endcomment %}
+                  <td style="align-items: center;" align="center">
+                    {% comment %} {% if userProbData %}
                     done
                     {% else %}
                     not done
                     {% endif %}
                     <button type="button" class="btn btn-icon btn-outline-success"><i data-feather="check-circle"></i>
-                      mark as complete</button>
+                      mark as complete</button> {% endcomment %}
                     <a href="{{problem.solution_url}}" target="_blank" type="button"
-                      class="btn btn-icon btn-outline-primary"><i data-feather="code"></i>
+                      class="btn btn-sm btn-icon btn-outline-primary"><i data-feather="code"></i>
                       solution</a>
                     {% comment %} check if the video link exists or not. Only then show the buttons {% endcomment %}
                     <a href="{{problem.video_url}}" target="_blank" type="button"
-                      class="btn btn-icon btn-outline-danger"><i data-feather="youtube"></i>
+                      class="btn btn-sm btn-icon btn-outline-danger"><i data-feather="youtube"></i>
                       video</a>
-                    {% comment %} <button type="button" class="btn btn-icon btn-outline-success" disabled><i
+                      {% comment %} <script>
+                        function myFunction() {
+                          var x= navigator.clipboard.writeText("problems/{{problem.slug}}");
+                          alert("Copied the text: " + x);
+                        }
+                      </script>
+                    <button type="button" onclick="cpy()" class="btn btn-sm btn-icon btn-outline-success"><i
                         data-feather="share"></i>share</button> {% endcomment %}
                   </td>
                 </tr>

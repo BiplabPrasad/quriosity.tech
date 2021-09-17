@@ -60,7 +60,10 @@ def page404(request):
   return render(request,'404.html')
 
 def problems(request,slug):
-  print("I am in problems view")
+  if request.user.id == None:
+    messages.warning(request,"Please Signup/Login to view")
+    return redirect('dashboard')
+  # print("I am in problems view")
   alltopic = topic.objects.all()
   top = topic.objects.filter(slug=slug).first()
   prob = problem.objects.filter(topic=top).all().order_by('priority')
@@ -86,7 +89,7 @@ def problems(request,slug):
     'user':user,
 
   }
-  messages.info(request,"Topic --> "+top.title)
+  # messages.info(request,"Topic --> "+top.title)
   return render(request,'problems.html',context)
 
 # Authentication APIs
@@ -203,7 +206,7 @@ def handleSignup(request):
     myuser.last_name = lname
     myuser.save()
     messages.success(request,"Your Account has been successfully created")
-    messages.info(request,"A verification email has been send. Please verify your account")
+    # messages.info(request,"A verification email has been send. Please verify your account")
     return redirect('signup')
   else:
     # return HttpResponse('404 - Not Found (Unauthorised access)')
@@ -249,22 +252,24 @@ def log_out(request):
   messages.success(request,"Successfully Logged Out")
   return redirect('log_in')
 
-def sendEmail(request):
-  # I will send the email here
-  send_mail(
-    'Subject Test',
-    'Here is the test message.',
-    'support@quriosity.tech',
-    ['quriosity.tech@gmail.com'],
-    fail_silently=False,
-  )
-  return render(request,'email.html')
+# def sendEmail(request):
+#   # I will send the email here
+#   send_mail(
+#     'Subject Test',
+#     'Here is the test message.',
+#     'support@quriosity.tech',
+#     ['quriosity.tech@gmail.com'],
+#     fail_silently=False,
+#   )
+#   return render(request,'email.html')
 
 def forgotUsername(request):
-  return render(request,'forgot-username.html')
+  # return render(request,'forgot-username.html')
+  return redirect('404')
 
 def forgotPassword(request):
-  return render(request,'forgot-password.html')
+  # return render(request,'forgot-password.html')
+  return redirect('404')
 
 # trying the like functionality
 # def like_button(request):
@@ -294,7 +299,7 @@ def forgotPassword(request):
 #   return render(request,"like/like_template.html",ctx)
 
 def likePost(request):
-  print("i am here")
+  # print("i am here")
   #check if the user is anonymous then display the message to login
   if request.method == 'POST':
     user = request.user
