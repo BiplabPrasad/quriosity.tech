@@ -35,7 +35,7 @@ def activity(request):
   return render(request,'activity.html',context)
 
 def dashboard(request):
-  alltopic = topic.objects.all()
+  alltopic = topic.objects.all().order_by('priority')
   # print(alltopic)
   context = {'alltopic':alltopic}
   return render(request,'dashboard.html',context)
