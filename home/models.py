@@ -39,7 +39,7 @@ class problem(models.Model):
     ('Hard', 'Hard')
   )
   tag=models.CharField(choices=TAG_STATUS,max_length=20,null=True,blank=True)
-  priority = models.IntegerField(unique=True,null=False,blank=False)
+  priority = models.IntegerField(null=False,blank=False)
   slug=models.CharField(unique=True,max_length=200,null=True,blank=True)
   problem_url=models.URLField(max_length=250,null=False,blank=False)
   solution_url=models.URLField(max_length=250,null=False,blank=False)
