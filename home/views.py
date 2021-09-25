@@ -66,6 +66,14 @@ def problems(request,slug):
   # print("I am in problems view")
   alltopic = topic.objects.all()
   top = topic.objects.filter(slug=slug).first()
+  # if the slug is empty return 404
+  if top is None:
+    # messages.error(request,"Invalid Request !")
+    return redirect('404')
+  # if the topic is not active return 404
+  if top.active is False:
+    # messages.error(request,"This topic is currently not active")
+    return redirect('404')
   prob = problem.objects.filter(topic=top).all().order_by('priority')
   total_problem = problem.objects.filter(topic=top).count()
   problem_solved = problem.objects.filter(topic=top,completed=request.user).count()
