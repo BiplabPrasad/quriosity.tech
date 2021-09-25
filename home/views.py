@@ -68,7 +68,7 @@ def problems(request,slug):
   top = topic.objects.filter(slug=slug).first()
   prob = problem.objects.filter(topic=top).all().order_by('priority')
   total_problem = problem.objects.filter(topic=top).count()
-  problem_solved = userProblemData.objects.filter(user=request.user,completed=True).count()
+  problem_solved = problem.objects.filter(topic=top,completed=request.user).count()
   problem_unsolved = total_problem - problem_solved
   userProbData = userProblemData.objects.filter(user = request.user).all()
   user = request.user
@@ -331,7 +331,19 @@ def ProblemLike(request, pk):
   if post.liked.filter(id=request.user.id).exists():
     post.liked.remove(request.user)
   else:
-    print("i am here")
+    # print("i am here")
     post.liked.add(request.user)
+
+  return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+def ProblemMark(request, pk):
+  post = get_object_or_404(problem, id=request.POST.get('problem_id'))
+  if post.completed.filter(id=request.user.id).exists():
+    post.completed.remove(request.user)
+  else:
+    # print("i am here")
+    post.completed.add(request.user)
 
   return redirect(request.META.get('HTTP_REFERER'))

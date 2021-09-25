@@ -37,5 +37,6 @@ urlpatterns = [
     # like try here
     # path('problems/likePost/<int:pk>',views.likePost,name='likePost'),
     path('problems/likePost/<int:pk>',views.ProblemLike,name='likePost'),
+    path('problems/ProblemMark/<int:pk>',views.ProblemMark,name='ProblemMark'),
     path('problems/<slug:slug>',views.problems,name="problems"),
 ]

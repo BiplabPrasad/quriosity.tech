@@ -52,6 +52,7 @@ class problem(models.Model):
     (True, 'Yes'),
     (False, 'No')
   )
+  completed = models.ManyToManyField(User, default=None, blank=True, related_name='completed')
   active = models.BooleanField(choices=STATUS,default=False, blank=False)
   # last_modified_data = models.DateField(auto_now=True)
   # last_modified_time = models.DateTimeField(auto_now=True)

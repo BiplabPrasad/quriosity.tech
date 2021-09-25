@@ -69,10 +69,10 @@
           <div class="row align-items-center m-b-0">
             <div class="col">
               <h6 class="m-b-5 text-white">Problems Solved</h6>
-              <h3 class="m-b-0 text-white">NA <!--{{problem_solved}}--></h3>
+              <h3 class="m-b-0 text-white">{{problem_solved}}</h3>
             </div>
             <div class="col-auto">
-              <i class="material-icons-two-tone text-white">local_mall</i>
+              <i class="material-icons-two-tone text-white">check_circle</i>
             </div>
           </div>
         </div>
@@ -84,10 +84,10 @@
           <div class="row align-items-center m-b-0">
             <div class="col">
               <h6 class="m-b-5 text-primary">Problems Remaining</h6>
-              <h3 class="m-b-0 text-primary">NA<!--{{problem_unsolved}}--></h3>
+              <h3 class="m-b-0 text-primary">{{problem_unsolved}}</h3>
             </div>
             <div class="col-auto">
-              <i class="material-icons-two-tone text-primary">monetization_on</i>
+              <i class="material-icons-two-tone text-primary">unpublished</i>
             </div>
           </div>
         </div>
@@ -120,10 +120,11 @@
                 {% if problem.active == True %}
                 <tr>
                   <td>{{ forloop.counter }}</td>
-                  <td><a href="{% url 'likePost' problem.id %}" target="_blank">{{problem.title}}</a></td>
+                  <td><a href="{{ problem.problem_url }}" target="_blank">{{problem.title}}</a></td>
                   <td>
                     {% if problem.tag == 'Easy' %}
                     <span class="badge bg-light-success">{{problem.tag}}</span>
+                    {% comment %} <span class="badge bg-light-primary">{{problem.completed.all.count}}</span> {% endcomment %}
                     {% elif problem.tag == 'Medium' %}
                     <span class="badge bg-light-warning">{{problem.tag}}</span>
                     {% else %}
@@ -154,28 +155,23 @@
                     </div>
                   </td>
                   <td style="align-items: center;" align="center">
-                    {% comment %} {% if userProbData %}
-                    done
-                    {% else %}
-                    not done
-                    {% endif %}
-                    <button type="button" class="btn btn-icon btn-outline-success"><i data-feather="check-circle"></i>
-                      mark as complete</button> {% endcomment %}
-                    <a href="{{problem.solution_url}}" target="_blank" type="button"
-                      class="btn btn-icon btn-outline-primary"><i data-feather="code"></i>
-                      solution</a>
-                    {% comment %} check if the video link exists or not. Only then show the buttons {% endcomment %}
-                    <a href="{{problem.video_url}}" target="_blank" type="button"
-                      class="btn btn-icon btn-outline-danger"><i data-feather="youtube"></i>
-                      video</a>
-                      {% comment %} <script>
-                        function myFunction() {
-                          var x= navigator.clipboard.writeText("problems/{{problem.slug}}");
-                          alert("Copied the text: " + x);
-                        }
-                      </script>
-                    <button type="button" onclick="cpy()" class="btn btn-sm btn-icon btn-outline-success"><i
-                        data-feather="share"></i>share</button> {% endcomment %}
+                    <form action="{% url 'ProblemMark' problem.id %}" method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" name="problem_id" value="{{ problem.id }}">
+                      <input type="hidden" name="slug_id" value="{{ slug }}">
+                      {% if user not in problem.completed.all %}
+                        <button class="btn btn-light-success" type="submit"><i class="mr-2" data-feather="edit-2"></i> Mark as complete </button>
+                      {% else %}
+                        <button class="btn btn-success" type="submit"><i class="mr-2" data-feather="check-square"></i> Done </button>
+                      {% endif %}
+                      <a href="{{problem.solution_url}}" target="_blank" type="button"
+                        class="btn btn-icon btn-outline-primary"><i data-feather="code"></i>
+                        solution</a>
+                      {% comment %} check if the video link exists or not. Only then show the buttons {% endcomment %}
+                      <a href="{{problem.video_url}}" target="_blank" type="button"
+                        class="btn btn-icon btn-outline-danger"><i data-feather="youtube"></i>
+                        video</a>
+                    </form>
                   </td>
                 </tr>
                 {% endif %}
