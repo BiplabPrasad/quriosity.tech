@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404 
 import json
 import uuid
-# from django.conf import settings
+from django.utils.safestring import mark_safe
 
 # HTML pages
 def index(request):
@@ -37,6 +37,7 @@ def activity(request):
   return render(request,'activity.html',context)
 
 def dashboard(request):
+  messages.info(request,"More Topics & Problems are being added...")
   alltopic = topic.objects.all().order_by('priority')
   # print(alltopic)
   context = {'alltopic':alltopic}
@@ -63,7 +64,8 @@ def page404(request):
 
 def problems(request,slug):
   if request.user.id == None:
-    messages.warning(request,"Please Signup/Login to view")
+    # messages.warning(request,"Please Signup/Login to view")
+    messages.info(request, mark_safe("Please <a href='/signup'>Signup</a>/<a href='/log_in'>Login</a> to access all the features. Currently you have restricted access."))
     return redirect('dashboard')
   # print("I am in problems view")
   alltopic = topic.objects.all()
