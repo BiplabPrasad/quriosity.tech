@@ -135,8 +135,8 @@ class myfaq(models.Model):
 
 
 class account_verification(models.Model):
-  user = models.ForeignKey(User,on_delete=models.CASCADE)
-  verification_code=models.CharField(unique=True,max_length=100,null=False,blank=False)
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+  auth_token=models.CharField(unique=True,max_length=100,null=False,blank=False)
   verification_link=models.URLField(unique=True,max_length=300,null=False,blank=False)
   STATUS = (
     (True, 'verified'),
@@ -147,14 +147,16 @@ class account_verification(models.Model):
     (True, 'Active account'),
     (False, 'Blocked account')
   )
-  account_status = models.BooleanField(choices=STATUS2,default=False, blank=False)
-  # last_modified_data = models.DateField(auto_now=True)
-  # last_modified_time = models.DateTimeField(auto_now=True)
+  account_status = models.BooleanField(choices=STATUS2,default=True, blank=False)
   created_at = models.DateTimeField(auto_now_add=True)
   last_updated_at = models.DateTimeField(auto_now=True)
+  
   def __str__(self):
     template = 'user - {0.user} ---> STATUS - {0.verification_status} ---> Acc. Status - {0.account_status}'
-    return template.format(self)
+    # return template.format(self)
+    return str(self.user)
+  
+
 
 
 

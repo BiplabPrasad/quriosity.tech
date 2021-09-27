@@ -139,8 +139,9 @@ MESSAGE_TAGS = {
 }
 
 #  for emails
-EMAIL_HOST = 'smtp.quriosity.tech'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.zoho.in'
 EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'support@quriosity.tech'
-EMAIL_HOST_PASSWORD = 'LqJIbyM2'
+EMAIL_HOST_USER = 'noreply@quriosity.tech'
+EMAIL_HOST_PASSWORD = 'NR@quriosity#123'
 EMAIL_USE_TLS = True

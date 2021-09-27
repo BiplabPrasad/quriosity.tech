@@ -7,6 +7,8 @@ from home.models import problem, topic, userProblemData, myfaq, account_verifica
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404 
 import json
+import uuid
+# from django.conf import settings
 
 # HTML pages
 def index(request):
@@ -213,8 +215,19 @@ def handleSignup(request):
     myuser.first_name = fname
     myuser.last_name = lname
     myuser.save()
+
+    # now adding data in account_verification model
+    auth_token = str(uuid.uuid4())
+    # change the verification link after uploding on the server
+    verification_link = 'http://127.0.0.1:8000/verify/'+auth_token
+    verify_obj = account_verification.objects.create(user = myuser, auth_token = auth_token, verification_link = verification_link)
+    verify_obj.save()
+
+    # sending the verification mail
+    send_mail_after_registration(email,auth_token,fname,username)
+
     messages.success(request,"Your Account has been successfully created")
-    # messages.info(request,"A verification email has been send. Please verify your account")
+    messages.info(request,"A verification email has been send. Please verify your account")
     return redirect('signup')
   else:
     # return HttpResponse('404 - Not Found (Unauthorised access)')
@@ -232,22 +245,37 @@ def handleLogin(request):
     # validating all the data from the login form
     if len(loginusername)==0:
       messages.error(request,"Enter Username")
-      return redirect('login')
+      return redirect('log_in')
 
     if not loginusername.isalnum():
       messages.error(request,"username should be alphanumeric")
-      return redirect('login')
+      return redirect('log_in')
 
     if len(loginpass)==0:
       messages.error(request,"Enter Password")
-      return redirect('login')
+      return redirect('log_in')
 
     # validating the user by username and password
     user = authenticate(username = loginusername, password = loginpass)
     if user is not None:
-      login(request, user)
-      messages.success(request,"Successfully Logged In")
-      return redirect('dashboard')
+      # checking if the user has verified its email id or not and it account is blocked or not
+      verify_obj = account_verification.objects.filter(user = user).first()
+      # checking if the user account is blocked or not
+      if not verify_obj.account_status:
+        messages.error(request,"Your account has been blocked. Contact us at 'contact@quriosity.tech'")
+        return redirect('log_in')
+      #  if the user has verified his email then do login else tell him to verify his email id
+      if verify_obj.verification_status:
+        login(request, user)
+        messages.success(request,"Successfully Logged In")
+        return redirect('dashboard')
+      else:
+        messages.warning(request,"Please verify your email id")
+        # send verification mail again
+        user_obj_for_verify = User.objects.get(username = loginusername)
+        send_mail_after_registration(user_obj_for_verify.email, verify_obj.auth_token, user_obj_for_verify.first_name, user_obj_for_verify.username)
+        messages.info(request,"Verification email has been send to you email id")
+        return redirect('log_in')
     else:
       messages.error(request,"Invalid Credentials, try again")
       return redirect('log_in')
@@ -265,7 +293,7 @@ def log_out(request):
 #   send_mail(
 #     'Subject Test',
 #     'Here is the test message.',
-#     'support@quriosity.tech',
+#     'noreply@quriosity.tech',
 #     ['quriosity.tech@gmail.com'],
 #     fail_silently=False,
 #   )
@@ -279,32 +307,7 @@ def forgotPassword(request):
   # return render(request,'forgot-password.html')
   return redirect('404')
 
-# trying the like functionality
-# def like_button(request):
-#   if request.method =="POST":
-#     if request.POST.get("operation") == "like_submit" and request.is_ajax():
-#       content_id=request.POST.get("content_id",None)
-#       content=get_object_or_404(problem,pk=content_id)
-#       if content.likes.filter(id=request.user.id): #already liked the content
-#         content.likes.remove(request.user) #remove user from likes 
-#         liked=False
-#       else:
-#         content.likes.add(request.user) 
-#         liked=True
-#       ctx={
-#         # "likes_count":content.get_total_likes,
-#         # "liked":liked,
-#         "content_id":content_id
-#       }
-#       return HttpResponse(json.dumps(ctx), content_type='application/json')
-#   contents=problem.objects.all()
-#   already_liked=[]
-#   id=request.user.id
-#   for content in contents:
-#     if(content.likes.filter(id=id).exists()):
-#       already_liked.append(content.id)
-#   ctx={"contents":contents,"already_liked":already_liked}
-#   return render(request,"like/like_template.html",ctx)
+
 
 def likePost(request):
   # print("i am here")
@@ -355,3 +358,39 @@ def ProblemMark(request, pk):
     post.completed.add(request.user)
 
   return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+# def send mail after registration
+def send_mail_after_registration(email,token,fname,username):
+  subject ='Email address verification of Quriosity account'
+  # change the verification link after uploding on the server
+  message = 'Hi '+fname+',\n\n Your account has been created sucessfully with Quriosity.tech with following credentials - \n Username : '+username+'\n Email id - '+email+'\n\n Please, verify your Quriosity account by opening this link in your web browser -  http://127.0.0.1:8000/verify/'+token+'\n\n Thank You\n\n Best Regards,\n Quriosity '
+  email_from = 'noreply@quriosity.tech'
+  recipient_list = [email]
+  send_mail(subject, message, email_from, recipient_list,fail_silently=False)
+
+
+#  function to verify the account
+def verify(request, auth_token):
+  try:
+    received_obj = account_verification.objects.filter(auth_token = auth_token).first()
+    if received_obj:
+      # checking if the account is already verified
+      if received_obj.verification_status:
+        messages.info(request,'Your account is already verified. You can login now.')
+        return redirect('log_in')
+      # if the account is already not verified the do this
+      received_obj.verification_status = True
+      received_obj.save()
+      messages.success(request,'Your account has been verified. You can login now.')
+      return redirect('log_in')
+    else:
+      messages.error(request,'Invalid Request! Such requests will block your IP addess from Quriosity.tech!')
+      return redirect('404')
+  except Exception as e:
+    messages.error(request,e)
+  return redirect('404')
+
+
+

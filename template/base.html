@@ -23,7 +23,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="icon" href="{% static 'assets/images/mini-logo-small.png' %}" type="image/x-icon" />
 
   <!-- font css -->
-  {% comment %} {% load static %} {% endcomment %}
   <link rel="stylesheet" href="{% static 'assets/fonts/feather.css' %}" />
   <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome.css' %}" />
   <link rel="stylesheet" href="{% static 'assets/fonts/material.css' %}" />
@@ -212,15 +211,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script src="{% static 'assets/js/plugins/bootstrap.min.js'%}"></script>
   <script src="{% static 'assets/js/plugins/feather.min.js'%}"></script>
   <script src="{% static 'assets/js/pcoded.min.js'%}"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> -->
+  {% comment %} <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> -->
   <!-- <script src="assets/js/plugins/clipboard.min.js"></script> -->
-  <!-- <script src="assets/js/uikit.min.js"></script> -->
+  <!-- <script src="assets/js/uikit.min.js"></script> --> {% endcomment %}
 
   <!-- Apex Chart -->
-  <script src="{% static 'assets/js/plugins/apexcharts.min.js'%}"></script>
+  {% comment %} <script src="{% static 'assets/js/plugins/apexcharts.min.js'%}"></script> {% endcomment %}
 
   <!-- custom-chart js -->
-  <script src="{% static 'assets/js/pages/dashboard-sale.js'%}"></script>
+  {% comment %} <script src="{% static 'assets/js/pages/dashboard-sale.js'%}"></script> {% endcomment %}
 </body>
 
 </html>
