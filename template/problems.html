@@ -1,7 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Problems | {{request.user}}{% endblock %}
-{% block description %} This page contains problem in the increasing order of their difficulty {% endblock %}
-{% block keywords %}Problems,Quriosity{% endblock %}
+{% block title %}Problems | {% if request.user.is_anonymous %}Quriosity{% else %}{{request.user}}{% endif %}{% endblock %}
+{% block title2 %}Problems | {% if request.user.is_anonymous %}Quriosity{% else %}{{request.user}}{% endif %}{% endblock %}
+{% block description %}Platform to practice programming problems. Quriosity is the best platform to help you enhance your coding skills, expand your knowledge and prepare for technical interviews.{% endblock %}
+{% block keywords %}quriosity,problems{% endblock %}
 {% block alltopic %}
 {% for topic in alltopic %}
 {% if topic.active == True %}

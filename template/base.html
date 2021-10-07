@@ -11,13 +11,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-5PDHGFB');</script>
 <!-- End Google Tag Manager -->
 
+  <!-- Primary Meta Tags -->
   <title>{% block title %} {% endblock %}</title>
+  <meta name="title" content="{% block title2 %} {% endblock %}">
+  <meta name="description" content="{% block description %} {% endblock %}">
+  <meta name="keywords" content="{% block keywords %} {% endblock %}" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://quriosity.tech/dashboard/">
+  <meta property="og:title" content="Dashboard | Quriosity">
+  <meta property="og:description" content="Platform to practice programming problems. Quriosity is the best platform to help you enhance your coding skills, expand your knowledge and prepare for technical interviews.">
+  <meta property="og:image" content="{% static 'assets/images/mini-logo-small.png' %}">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://quriosity.tech/dashboard/">
+  <meta property="twitter:title" content="Dashboard | Quriosity">
+  <meta property="twitter:description" content="Platform to practice programming problems. Quriosity is the best platform to help you enhance your coding skills, expand your knowledge and prepare for technical interviews.">
+  <meta property="twitter:image" content="{% static 'assets/images/mini-logo-small.png' %}">
+
+  {% comment %} <title>{% block title %} {% endblock %}</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="description" content="{% block description %} {% endblock %}" />
   <meta name="keywords" content="{% block keywords %} {% endblock %}" />
-  <meta name="author" content="DashboardKit " />
+  <meta name="author" content="DashboardKit " /> {% endcomment %}
 
   <!-- Favicon icon -->
   <link rel="icon" href="{% static 'assets/images/mini-logo-small.png' %}" type="image/x-icon" />
