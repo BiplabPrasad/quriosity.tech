@@ -224,7 +224,7 @@ def handleSignup(request):
     # now adding data in account_verification model
     auth_token = str(uuid.uuid4())
     # change the verification link after uploding on the server
-    verification_link = 'http://127.0.0.1:8000/verify/'+auth_token
+    verification_link = 'https://quriosity.tech/verify/'+auth_token
     verify_obj = account_verification.objects.create(user = myuser, auth_token = auth_token, verification_link = verification_link)
     verify_obj.save()
 
@@ -370,7 +370,7 @@ def ProblemMark(request, pk):
 def send_mail_after_registration(email,token,fname,username):
   subject ='Email address verification of Quriosity account'
   # change the verification link after uploding on the server
-  message = 'Hi '+fname+',\n\n Your account has been created sucessfully with Quriosity.tech with following credentials - \n Username : '+username+'\n Email id - '+email+'\n\n Please, verify your Quriosity account by opening this link in your web browser -  http://127.0.0.1:8000/verify/'+token+'\n\n Thank You\n\n Best Regards,\n Quriosity '
+  message = 'Hi '+fname+',\n\n Your account has been created sucessfully with Quriosity.tech with following credentials - \n Username : '+username+'\n Email id - '+email+'\n\n Please, verify your Quriosity account by opening this link in your web browser -  https://quriosity.tech/verify/'+token+'\n\n Thank You\n\n Best Regards,\n Quriosity '
   email_from = 'noreply@quriosity.tech'
   recipient_list = [email]
   send_mail(subject, message, email_from, recipient_list,fail_silently=False)
