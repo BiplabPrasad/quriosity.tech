@@ -169,9 +169,11 @@
                         class="btn btn-icon btn-outline-primary"><i data-feather="code"></i>
                         solution</a>
                       {% comment %} check if the video link exists or not. Only then show the buttons {% endcomment %}
-                      <a href="{{problem.video_url}}" target="_blank" type="button"
+                      {% if problem.video_url != '#' or problem.video_url != "#" %}
+                        <a href="{{problem.video_url}}" target="_blank" type="button"
                         class="btn btn-icon btn-outline-danger"><i data-feather="youtube"></i>
                         video</a>
+                      {% endif %}
                     </form>
                   </td>
                 </tr>

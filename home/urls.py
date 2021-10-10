@@ -38,4 +38,5 @@ urlpatterns = [
     path('problems/<slug:slug>',views.problems,name="problems"),
     # path to verify email id
     path('verify/<auth_token>',views.verify,name="verify"),
+    path('view/<slug:slug>',views.view,name="view"),
 ]

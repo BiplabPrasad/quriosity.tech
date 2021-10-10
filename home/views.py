@@ -63,6 +63,9 @@ def page404(request):
   return render(request,'404.html')
 
 def problems(request,slug):
+  # if the user is anonymous then redirect view problems
+  if request.user.is_anonymous:
+    return redirect('/view/'+slug)
   if request.user.id == None:
     # messages.warning(request,"Please Signup/Login to view")
     messages.info(request, mark_safe("Please <a href='/signup'>Signup</a>/<a href='/log_in'>Login</a> to access all the features. Currently you have restricted access."))
@@ -393,6 +396,44 @@ def verify(request, auth_token):
   except Exception as e:
     messages.error(request,e)
   return redirect('404')
+
+
+def view(request,slug):
+  if request.user.id == None:
+    messages.info(request, mark_safe("Please <a href='/signup'>Signup</a>/<a href='/log_in'>Login</a> to access all the features. Currently you have restricted access."))
+    # return redirect('dashboard')
+  # print("I am in problems view for anonymous users")
+  alltopic = topic.objects.all()
+  top = topic.objects.filter(slug=slug).first()
+  # if the slug is empty return 404
+  if top is None:
+    messages.error(request,"Invalid Request !")
+    return redirect('404')
+  # if the topic is not active return 404
+  if top.active is False:
+    messages.error(request,"This topic is currently not active")
+    return redirect('404')
+  prob = problem.objects.filter(topic=top).all().order_by('priority')
+  total_problem = problem.objects.filter(topic=top).count()
+  problem_solved = "NA"
+  problem_unsolved = "NA"
+  # print(userProbData)
+  # print(top)
+  # print(prob)
+  # print(userProbData)
+  # print(problem_unsolved)
+  context = {
+    'alltopic':alltopic,
+    'top':top,
+    'prob':prob,
+    'slug':slug,
+    'total_problem':total_problem,
+    'problem_solved':problem_solved,
+    'problem_unsolved':problem_unsolved,
+  }
+  # messages.info(request,"Topic --> "+top.title)
+  return render(request,'view.html',context)
+
 
 
 
