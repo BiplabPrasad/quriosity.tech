@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Problems | {% if request.user.is_anonymous %}Quriosity{% else %}{{request.user}}{% endif %}{% endblock %}
-{% block title2 %}Problems | {% if request.user.is_anonymous %}Quriosity{% else %}{{request.user}}{% endif %}{% endblock %}
+{% block title %}View | {% if request.user.is_anonymous %}Quriosity{% else %}{{request.user}}{% endif %}{% endblock %}
+{% block title2 %}View | {% if request.user.is_anonymous %}Quriosity{% else %}{{request.user}}{% endif %}{% endblock %}
 {% block description %}Platform to practice programming problems. Quriosity is the best platform to help you enhance your coding skills, expand your knowledge and prepare for technical interviews.{% endblock %}
-{% block keywords %}quriosity,problems{% endblock %}
+{% block keywords %}view,problems{% endblock %}
 {% block alltopic %}
 {% for topic in alltopic %}
 {% if topic.active == True %}

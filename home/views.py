@@ -70,7 +70,7 @@ def problems(request,slug):
     # messages.warning(request,"Please Signup/Login to view")
     messages.info(request, mark_safe("Please <a href='/signup'>Signup</a>/<a href='/log_in'>Login</a> to access all the features. Currently you have restricted access."))
     return redirect('dashboard')
-  # print("I am in problems view")
+  messages.info(request, mark_safe("Please make sure that you have <strong><a href='https://auth.geeksforgeeks.org/'>login</a></strong> to your <a href='https://auth.geeksforgeeks.org/'>geeksforgeeks</a> account in the same browser so that you can view the problems."))
   alltopic = topic.objects.all()
   top = topic.objects.filter(slug=slug).first()
   # if the slug is empty return 404
@@ -403,6 +403,7 @@ def view(request,slug):
     messages.info(request, mark_safe("Please <a href='/signup'>Signup</a>/<a href='/log_in'>Login</a> to access all the features. Currently you have restricted access."))
     # return redirect('dashboard')
   # print("I am in problems view for anonymous users")
+  messages.warning(request, mark_safe("Please make sure that you have <strong><a href='https://auth.geeksforgeeks.org/'>login</a></strong> to your <a href='https://auth.geeksforgeeks.org/'>geeksforgeeks</a> account in the same browser so that you can view the problems."))
   alltopic = topic.objects.all()
   top = topic.objects.filter(slug=slug).first()
   # if the slug is empty return 404
